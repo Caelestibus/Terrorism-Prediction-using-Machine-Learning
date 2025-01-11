@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Housekeeping</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/rooms.css" />
+    <link rel="stylesheet" href="/static/css/dashboard.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 1000px;
+            margin-top: 2rem;
+        }
+        h1 {
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            color: #343a40;
+        }
+        .table th, .table td {
+            text-align: center;
+            vertical-align: middle;
+        }
+        .search-bar {
+            margin-bottom: 1.5rem;
+        }
+        .search-bar .input-group {
+            max-width: 600px;
+            margin: auto;
+        }
+        .btn-info {
+            background-color: #17a2b8;
+            border-color: #17a2b8;
+        }
+        .btn-info:hover {
+            background-color: #138496;
+            border-color: #117a8b;
+        }
+        .table th {
+            background-color: #f8f9fa;
+        }
+        .table-hover tbody tr:hover {
+            background-color: #f1f3f5;
+        }
+        .container {
+                max-width: 600px;
+                margin-top: 2rem;
+            }
+            .form-group {
+                margin-bottom: 1.5rem;
+            }
+            .form-label {
+                font-weight: bold;
+            }
+    </style>
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+<div class="col-md-2 col-sm-4 bg-dark text-white vh-100 p-1 sidebar">
+    <!-- Hotel Logo -->
+    <div class="text-center">
+        <img src="/static/assets/images/planetgelimgbulogo.png" alt="Hotel Logo" class="img-fluid mb-2" style="width: 150px;">
+    
+    </div>
+
+    <!-- Navigation Links -->
+    <nav class="nav flex-column">
+        <a class="nav-link text-white py-2" href="/dashboard">
+            <i class="fas fa-tachometer-alt mr-2"></i>Dashboard
+        </a>
+        <a class="nav-link text-white py-2" href="/reservations">
+            <i class="fas fa-calendar-check mr-2"></i>Reservations
+        </a>
+        <a class="nav-link text-white py-2" href="/bookings">
+            <i class="fas fa-sign-in-alt mr-2"></i>Check In
+        </a>
+        <a class="nav-link text-white py-2" href="/rooms">
+            <i class="fas fa-door-closed mr-2"></i>Manage Rooms
+        </a>
+        <a class="nav-link text-white py-2" href="/housekeeping">
+            <i class="fas fa-broom mr-2"></i>Housekeeping
+        </a>
+        <a class="nav-link text-white py-2" href="/guests">
+            <i class="fas fa-users mr-2"></i>Guests
+        </a>
+        <a class="nav-link text-white py-2" href="/logout">
+            <i class="fas fa-sign-out-alt mr-2"></i>Logout
+        </a>
+    </nav>
+</div>
+
+
+    <div class="content">
+   
+   
+        <h1 class="text-center">Manage Guests</h1>
+        <form method="GET" action="{{ url_for('manage_guests') }}" class="search-bar">
+            <div class="input-group">
+                <input type="text" name="search" class="form-control" placeholder="Search for guests using Phone Number or Last Name..." value="{{ search_query }}">
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="submit">Search</button>
+                </div>
+            </div>
+        </form>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead class="thead-light">
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Phone Number</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for guest in guests %}
+                    <tr>
+                        <td>{{ guest.first_name }}</td>
+                        <td>{{ guest.last_name }}</td>
+                        <td>{{ guest.email }}</td>
+                        <td>{{ guest.phone_number }}</td>
+                        <td>
+                            <a href="{{ url_for('view_guest_profile', guest_id=guest.id) }}" class="btn btn-info btn-sm">View Profile</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+   
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

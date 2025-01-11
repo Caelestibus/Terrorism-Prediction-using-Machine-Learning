@@ -1,0 +1,44 @@
+body {
+    background-color: #343a40; /* Dark background */
+    color: #f8f9fa; /* Light text color */
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; /* Center elements vertically */
+    font-family: 'Arial', sans-serif;
+}
+.card {
+    background-color: #495057; /* Card background color */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    margin-top: 0px; /* Space between logo and card */
+}
+.card h1 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #ffffff; /* White text color for headings */
+}
+.card p {
+    font-size: 16px;
+    color: #f8f9fa; /* Light text color for paragraph */
+    margin-bottom: 30px;
+}
+.btn-primary {
+    background-color: #007bff; /* Button background color */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 0px;
+}
+.btn-primary:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+/* New styles for logo */
+.logo {
+    max-width: 200px; /* Adjust based on your logo size */
+    margin-bottom: 0px; /* Space below the logo */
+}

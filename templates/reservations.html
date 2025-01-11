@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservation</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Optional: custom styles */
+        #rate_summary {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Reservation</h1>
+        
+        <form id="reservation-form" method="POST" action="">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="check_in_date">Check-In Date</label>
+                        <input type="date" id="check_in_date" name="check_in_date" class="form-control" required>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="check_out_date">Check-Out Date</label>
+                        <input type="date" id="check_out_date" name="check_out_date" class="form-control" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="num_rooms">Number of Rooms</label>
+                        <input type="number" id="num_rooms" name="num_rooms" class="form-control" min="1" required>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="num_adults">Number of Adults</label>
+                        <input type="number" id="num_adults" name="num_adults" class="form-control" min="1" required>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="num_children">Number of Children</label>
+                        <input type="number" id="num_children" name="num_children" class="form-control" min="0">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="guest">Guest</label>
+                <input type="text" id="guest" name="guest" class="form-control" placeholder="Search for guest..." required>
+                <div class="dropdown-menu" id="recent-guests">
+                    <!-- Recent guests will be dynamically populated here -->
+                    <a href="#" class="dropdown-item">Recent Guest 1</a>
+                    <a href="#" class="dropdown-item">Recent Guest 2</a>
+                    <a href="#" class="dropdown-item">Recent Guest 3</a>
+                    <a href="#" class="dropdown-item">Recent Guest 4</a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item" data-toggle="modal" data-target="#addGuestModal">Add New Guest</a>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="room_type">Room Type</label>
+                <select id="room_type" name="room_type" class="form-control" required>
+                    <option value="Standard 1">Standard 1</option>
+                    <option value="Standard 2">Standard 2</option>
+                    <option value="Executive">Executive</option>
+                    <option value="Executive Wing B">Executive Wing B</option>
+                    <option value="Exclusive">Exclusive</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="choose_room">Choose Room(s)</label>
+                <select id="choose_room" name="choose_room[]" class="form-control" multiple required>
+                    <!-- Rooms will be dynamically populated based on room type -->
+                </select>
+            </div>
+
+            <div class="form-group">
+                <h4>Rate</h4>
+                <p id="rate_summary">Total: ₦0.00</p>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit Reservation</button>
+        </form>
+    </div>
+
+</body>
+</html>

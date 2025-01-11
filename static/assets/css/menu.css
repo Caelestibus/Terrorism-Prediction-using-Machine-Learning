@@ -1,0 +1,58 @@
+.menu-section {
+    margin: 20px 0;
+  }
+  .menu-category {
+    margin-bottom: 20px;
+    color: white !important;
+  }
+  .menu-item {
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+  }
+  .menu-item:last-child {
+    border-bottom: none;
+  }
+  .menu-item h5, .menu-item p {
+    margin: 0;
+    color: white !important;
+  }
+  .price {
+    font-weight: bold;
+    color: white !important;
+  }
+  body {
+    background-color:rgb(33, 33, 33); 
+  }
+
+  .site-footer {
+    background-color: #000; /* Black background */
+    color: #fff; /* White text */
+    padding: 40px 0;
+  }
+  .site-footer a {
+    color: #D1D1D1; /* White text for links */
+  }
+  .site-footer a:hover {
+    color: #fff; /* Lighter color on hover */
+  }
+  .site-footer .widget h3 {
+    color: #fff; /* White text for headings */
+  }
+  .site-footer .social a {
+    color: #000; /* White icon color */
+    background-color: transparent; /* Transparent background */
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    border-radius: 50%;
+    transition: color 0.3s ease; /* Smooth transition for hover effect */
+  }
+  .site-footer .social a:hover {
+    color: #ccc; /* Lighter icon color on hover */
+  }
+  
+  

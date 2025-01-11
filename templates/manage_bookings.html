@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Bookings</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/dashboard.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 1200px;
+            margin-top: 2rem;
+        }
+        .table th, .table td {
+            text-align: center;
+        }
+        .form-row .form-group {
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+<div class="col-md-2 col-sm-4 bg-dark text-white vh-100 p-1 sidebar">
+    <!-- Hotel Logo -->
+    <div class="text-center">
+        <img src="/static/assets/images/planetgelimgbulogo.png" alt="Hotel Logo" class="img-fluid mb-2" style="width: 150px;">
+    
+    </div>
+
+    <!-- Navigation Links -->
+    <nav class="nav flex-column">
+        <a class="nav-link text-white py-2" href="/dashboard">
+            <i class="fas fa-tachometer-alt mr-2"></i>Dashboard
+        </a>
+        <a class="nav-link text-white py-2" href="/reservations">
+            <i class="fas fa-calendar-check mr-2"></i>Reservations
+        </a>
+        <a class="nav-link text-white py-2" href="/bookings">
+            <i class="fas fa-sign-in-alt mr-2"></i>Check In
+        </a>
+        <a class="nav-link text-white py-2" href="/rooms">
+            <i class="fas fa-door-closed mr-2"></i>Manage Rooms
+        </a>
+        <a class="nav-link text-white py-2" href="/housekeeping">
+            <i class="fas fa-broom mr-2"></i>Housekeeping
+        </a>
+        <a class="nav-link text-white py-2" href="/guests">
+            <i class="fas fa-users mr-2"></i>Guests
+        </a>
+        <a class="nav-link text-white py-2" href="/logout">
+            <i class="fas fa-sign-out-alt mr-2"></i>Logout
+        </a>
+    </nav>
+</div>
+    <!-- Main Content Area -->
+    <div class="content">
+   
+        <h1 class="mb-4">Manage Bookings</h1>
+        
+         <!-- Flash message display block -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="alert-container">
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
+        
+        <form method="GET" action="{{ url_for('manage_bookings') }}" class="mb-4">
+            <div class="form-row">
+            
+               
+                 <div class="form-group col-md-3">
+                    <label for="phone_number">Phone Number:</label>
+                    <input type="text" name="phone_number" id="phone_number" class="form-control" value="{{ phone_number }}">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="last_name">Last Name:</label>
+                    <input type="text" name="last_name" id="last_name" class="form-control" value="{{ last_name }}">
+                </div>
+            </div>
+            <div class="form-group d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary">Filter</button>
+            </div>
+        </form>
+
+        <a href="{{ url_for('add_booking') }}" class="btn btn-success mb-4">Create New Booking</a>
+
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Booking ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Phone Number</th>
+                    <th>Room Number</th>
+                    <th>Room Type</th>
+                    <th>Check-in Date</th>
+                    <th>Check-out Date</th>
+                    <th>Status</th>
+                    <th>Total Amount (₦)</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for booking in bookings %}
+                <tr>
+                    <td>{{ booking.id }}</td>
+                    <td>{{ booking.first_name }}</td>
+                    <td>{{ booking.last_name }}</td>
+                    <td>{{ booking.phone_number }}</td>
+                    <td>{{ booking.room.room_number }}</td>
+                    <td>{{ booking.room.room_type }}</td>
+                    <td>{{ booking.check_in_date }}</td>
+                    <td>{{ booking.check_out_date }}</td>
+                    <td>{{ booking.status }}</td>
+                    <td>₦{{ booking.total_amount }}</td>
+                    <td>
+                        {% if current_user.role in ['admin', 'manager'] %}
+                        <form action="{{ url_for('edit_booking', booking_id=booking.id) }}" method="GET" style="display:inline;">
+                            <button type="submit" class="btn btn-warning btn-sm">Edit Stay</button>
+                        </form>
+                        <!-- <form action="{{ url_for('edit_booking_room', booking_id=booking.id) }}" method="GET" style="display:inline;">
+                            <button type="submit" class="btn btn-success btn-sm">Change Room</button>
+                        </form> -->
+                        <form action="{{ url_for('delete_booking', booking_id=booking.id) }}" method="POST" style="display:inline;">
+                            <button type="submit" class="btn btn-danger btn-sm">Cancel</button>
+                        </form>
+                        {% endif %}
+                        {% if booking.status == 'Pending' %}
+                        <form action="{{ url_for('check_in', booking_id=booking.id) }}" method="POST" style="display:inline;">
+                            <button type="submit" class="btn btn-primary btn-sm">Check In</button>
+                        </form>
+                        {% elif booking.status == 'Checked In' %}
+                        <form action="{{ url_for('check_out', booking_id=booking.id) }}" method="POST" style="display:inline;">
+                            <button type="submit" class="btn btn-secondary btn-sm">Check Out</button>
+                        </form>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+   
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="{{ url_for('static', filename='javascript/booking.js') }}"></script>
+</body>
+</html>

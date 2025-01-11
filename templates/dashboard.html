@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Planet G</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/css/dashboard.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    
+
+  <!-- Sidebar Navigation -->
+<div class="col-md-2 col-sm-4 bg-dark text-white vh-100 p-1 sidebar">
+    <!-- Hotel Logo -->
+    <div class="text-center">
+        <img src="/static/assets/images/logo.jpeg" alt="Logo" class="img-fluid mb-2" style="width: 150px;">
+    
+    </div>
+
+    <!-- Navigation Links -->
+    <nav class="nav flex-column">
+        <a class="nav-link text-white py-2" href="/dashboard">
+            <i class="fas fa-tachometer-alt mr-2"></i>Dashboard
+        </a>
+        <a class="nav-link text-white py-2" href="/reservations">
+            <i class="fas fa-calendar-check mr-2"></i>Reservations
+        </a>
+        <a class="nav-link text-white py-2" href="/bookings">
+            <i class="fas fa-sign-in-alt mr-2"></i>Check In
+        </a>
+        {% if current_user.role in ['admin'] %}
+        <a class="nav-link text-white py-2" href="/rooms">
+            <i class="fas fa-door-closed mr-2"></i>Manage Rooms
+        </a>
+        {% endif %}
+        <a class="nav-link text-white py-2" href="/housekeeping">
+            <i class="fas fa-broom mr-2"></i>Housekeeping
+        </a>
+        <a class="nav-link text-white py-2" href="/guests">
+            <i class="fas fa-users mr-2"></i>Guests
+        </a>
+        {% if current_user.role in ['admin'] %}
+        <a class="nav-link text-white py-2" href="/register">
+            <i class="fas fa-history mr-2"></i>Register Staffs
+        </a>
+        {% endif %}
+        <!-- {% if current_user.role in ['admin', 'manager'] %}
+    <a class="nav-link text-white py-2" href="/reports">
+        <i class="fas fa-chart-bar mr-2"></i>Reports
+    </a>
+    {% endif %} -->
+        <a class="nav-link text-white py-2" href="/logout">
+            <i class="fas fa-sign-out-alt mr-2"></i>Logout
+        </a>
+    </nav>
+</div>
+
+    <!-- Main Content Area -->
+    <div class="content">
+        <div class="greeting">
+            Hello, {{ current_user.username }} <br>Role: {{ current_user.role }}. <br> You are logged in.
+        </div>
+
+        <div class="main-content">
+            <!-- Main content goes here -->
+            <h3>Dashboard Overview</h3>
+            <p>Welcome to your dashboard. Use the side navigation to manage different aspects of the hotel.</p>
+        </div>
+
+        <div class="row">
+            <!-- Total Bookings -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card border-left-primary shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                    Persons Checked In </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ total_people }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-male fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+             <!-- Total Reservation -->
+             <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card border-left-primary shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                    Total Reservations</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ total_reservations }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <!-- Rooms Occupied -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card border-left-success shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                    Occupied Rooms </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ total_rooms_occupied }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-bed fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+             <!-- Available Rooms (Clickable) -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card border-left-primary shadow h-100 py-2" data-toggle="collapse" data-target="#availableRoomsDetails" style="cursor: pointer;">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                    Available Rooms
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ total_rooms_available }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-bed fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Collapsible List of Available Rooms -->
+                <div id="availableRoomsDetails" class="collapse mt-2">
+                    <ul class="list-group">
+                        {% for room in available_rooms %}
+                        <li class="list-group-item">
+                            Room {{ room.room_number }} - {{ room.room_type }}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+             <!-- Dirty Rooms -->
+             <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card border-left-primary shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                    Dirty Rooms</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ total_rooms_dirty }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-bed fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <!-- Today's Revenue -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card border-left-warning shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                    Today's Revenue (₦)</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ total_revenue }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-euro-sign fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+       
+        <!-- Guests Arriving Today -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Guests Arriving Today</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Guest Name</th>
+                                <th>Room Number</th>
+                                <th>Room Type</th>
+                                <th>Check-In Date</th>
+                                <th>Phone Number</th>
+                                <th>Email</th>
+                                
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if guests_arriving_today %}
+                                {% for reservation in guests_arriving_today %}
+                            <tr>
+                                <td>{{ reservation.first_name }} {{ reservation.last_name }}</td>
+                                <td>{{ reservation.room.room_number }}</td>
+                                <td>{{ reservation.room.room_type }}</td>
+                                <td>{{ reservation.check_in_date }}</td>
+                                <td>{{ reservation.phone_number }}</td>
+                                <td>{{ reservation.email }}</td>
+                                
+                               
+                            </tr>
+                            {% endfor %}
+                            {% else %}
+                            <tr>
+                                <td colspan="4" class="text-center text-muted">No guests arriving today</td>
+                            </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+         <!-- Guests Departing Today -->
+         <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Guests Departing Today</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Guest Name</th>
+                                <th>Room Number</th>
+                                <th>Room Type</th>
+                                <th>Check-Out Date</th>
+                                <th>Phone Number</th>
+                                <th>Email</th>
+
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if guests_departing_today %}
+                                {% for booking in guests_departing_today %} 
+                            <tr>
+                                <td>{{ booking.guest.first_name }} {{ booking.guest.last_name }}</td>
+                                <td>{{ booking.room.room_number }}</td>
+                                <td>{{ booking.room.room_type }}</td>
+                                <td>{{ booking.check_out_date }}</td>
+                                <td>{{ booking.phone_number }}</td>
+                                <td>{{ booking.email }}</td>
+                                
+                               
+                            </tr>
+                            {% endfor %}
+                            {% else %}
+                            <tr>
+                                <td colspan="4" class="text-center text-muted">No guests departing today</td>
+                            </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+        
+        <!-- <div class="row"> -->
+            <!-- Reports Card -->
+            <!-- <div class="col-lg-4 col-md-6 mb-4">
+                <a href="/reports" class="card border-left-info shadow h-100 py-2 text-decoration-none">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                    Reports
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">Generate and View</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-chart-bar fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div> -->
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-joNo5PVDnl8XURmrXcchYFb1yzNIZdkkKnghRZCW8shfv0mCmrpHFTeTS6LShg4U" crossorigin="anonymous"></script>
+</body>
+</html>

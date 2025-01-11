@@ -1,0 +1,17 @@
+<!-- templates/invoice_template.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Invoice</title>
+    <style>
+        /* Add styles for the invoice */
+    </style>
+</head>
+<body>
+    <h1>Invoice for {{ booking.first_name }} {{ booking.last_name }}</h1>
+    <p><strong>Check-In Date:</strong> {{ booking.check_in_date }}</p>
+    <p><strong>Check-Out Date:</strong> {{ booking.check_out_date }}</p>
+    <p><strong>Total Amount:</strong> {{ invoice.total_amount }}</p>
+</body>
+</html>
