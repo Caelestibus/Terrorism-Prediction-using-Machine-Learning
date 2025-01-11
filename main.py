@@ -17,6 +17,8 @@ from flask_login import login_user, login_required, logout_user, current_user,Lo
 from functools import wraps
 from flask import redirect, url_for, flash
 from flask import request, render_template, make_response
+import pandas as pd
+from joblib import load 
 
 
 # from flask import Flask
@@ -32,11 +34,7 @@ app.config['SECRET_KEY']='david'
 app.config['UPLOAD_FOLDER']='static/files'
 app.config['SQLALCHEMY_DATABASE_URI']=f'sqlite:///{DB_NAME}'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-# Email server configuration
-# app.config['MAIL_SERVER'] = "smtp.googlemail.com"
-# app.config['MAIL_PORT'] = 587
-# app.config['MAIL_USERNAME'] = "planetgpinkissuites@gmail.com"
-# app.config['MAIL_PASSWORD'] = 'qjfzmdutgklkikby'
+
 db.init_app(app)
 bcrypt= Bcrypt(app)
 login_manager = LoginManager(app)
@@ -145,6 +143,76 @@ def dashboard():
     return render_template(
         'dashboard.html'
     )
+
+# Load the trained machine learning model and label encoders using joblib
+rf_model = load('terrorism_rfmodel.joblib')  # Update the filename if necessary
+label_encoder_state = load('label_encoder_state.joblib')
+label_encoder_attack = load('label_encoder_attack.joblib')
+@app.route('/machinelearning', methods=['GET', 'POST'])
+def machinelearning():
+    if request.method == 'POST':
+        try:
+            # Get user input from form
+            year = int(request.form['year'])
+            month = int(request.form['month'])
+            state = request.form['state']
+            attack_type = request.form['attackType']
+
+            # Check if the year is valid (between current year and the next year)
+            current_year = datetime.now().year
+            if year < current_year or year > current_year + 1:
+                flash(f'Error: Year must be the current year or the next year ({current_year} or {current_year + 1}).', 'danger')
+                return redirect(url_for('machinelearning'))
+             
+             # Check if the month is between 1 and 12
+            if month < 1 or month > 12:
+                flash('Error: Month must be between 1 and 12.', 'danger')
+                return redirect(url_for('machinelearning'))
+            
+            # Check if the inputs are valid
+            if state not in label_encoder_state.classes_:
+                flash('Error: The selected state is not recognized in the training data.', 'danger')
+                return redirect(url_for('machinelearning'))
+            
+            if attack_type not in label_encoder_attack.classes_:
+                flash('Error: The selected attack type is not recognized in the training data.', 'danger')
+                return redirect(url_for('machinelearning'))
+
+            # Encode categorical inputs
+            encoded_state = label_encoder_state.transform([state])[0]
+            encoded_attack_type = label_encoder_attack.transform([attack_type])[0]
+
+            # Create a DataFrame for prediction
+            input_data = pd.DataFrame({
+                'iyear': [year],
+                'imonth': [month],
+                'attacktype1_txt_encoded': [encoded_attack_type],
+                'provstate_encoded': [encoded_state]
+                
+            })
+
+            # Make prediction
+            probability = rf_model.predict_proba(input_data)[0][1]  # Probability of attack (1)
+            prediction = rf_model.predict(input_data)[0]  # Predicted class (1 or 0)
+
+            # Prepare the result message
+            if prediction == 1:
+                result_message = "Attack is likely to occur."
+            else:
+                result_message = "No attack is likely to occur."
+
+            return render_template(
+                'machinelearning.html',year=year,month=month,state=state,attack_type=attack_type,
+                prediction={
+                    'message': result_message,
+                    'probability': round(probability * 100, 2)
+                }
+            )
+        except Exception as e:
+            flash(f"An error occurred: {str(e)}", 'danger')
+            return redirect(url_for('machinelearning'))
+
+    return render_template('machinelearning.html')
 
 
 
