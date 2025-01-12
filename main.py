@@ -214,7 +214,120 @@ def machinelearning():
 
     return render_template('machinelearning.html')
 
+@app.route('/dataanalysis', methods=['GET', 'POST'])
+def dataanalysis():
+    try:
+        # Load the dataset (replace with the correct path to your dataset)
+        dataset_path = "nigeriaglobalterrorismdb.csv"
+        df = pd.read_csv(dataset_path)
 
+        # Initialize variables for summary statistics
+        total_attacks = len(df)
+        most_frequent_attack = df['attacktype1_txt'].mode()[0] if not df.empty else "N/A"
+        most_affected_state = df['provstate'].mode()[0] if not df.empty else "N/A"
+
+        # Initialize chart data
+        attacks_by_year = df.groupby('iyear').size().reset_index(name='count')
+        chart_data = attacks_by_year.to_dict(orient='records')
+
+        # Handle filtering logic for POST requests
+        if request.method == 'POST':
+            # Get filters from the form
+            year = request.form.get('year')
+            state = request.form.get('state')
+            attack_type = request.form.get('attackType')
+
+            # Apply filters if provided
+            if year:
+                df = df[df['iyear'] == int(year)]
+            if state:
+                df = df[df['provstate'] == state]
+            if attack_type:
+                df = df[df['attacktype1_txt'] == attack_type]
+
+            # Recalculate summary statistics after filtering
+            total_attacks = len(df)
+            most_frequent_attack = df['attacktype1_txt'].mode()[0] if not df.empty else "N/A"
+            most_affected_state = df['provstate'].mode()[0] if not df.empty else "N/A"
+
+            # Update chart data
+            attacks_by_year = df.groupby('iyear').size().reset_index(name='count')
+            chart_data = attacks_by_year.to_dict(orient='records')
+
+        # Render the Data Analysis page with results
+        return render_template(
+            'dataanalysis.html',
+            total_attacks=total_attacks,
+            most_frequent_attack=most_frequent_attack,
+            most_affected_state=most_affected_state,
+            chart_data=chart_data
+        )
+    except Exception as e:
+        flash(f"An error occurred: {str(e)}", 'danger')
+        return render_template('dataanalysis.html')
+
+
+
+@app.route('/historicalrecords', methods=['GET', 'POST'])
+def historicalrecords():
+    try:
+        # Load dataset
+        dataset_path = "nigeriaglobalterrorismdb.csv"
+        df = pd.read_csv(dataset_path)
+
+        # Pagination variables
+        per_page = 10
+        page = request.args.get('page', 1, type=int)
+        offset = (page - 1) * per_page
+        total_pages = (len(df) + per_page - 1) // per_page
+
+        # Pagination range logic
+        max_page_numbers = 10  # Maximum number of pages to display
+        start_page = max(1, page - max_page_numbers // 2)
+        end_page = min(total_pages, start_page + max_page_numbers - 1)
+        if end_page - start_page + 1 < max_page_numbers:
+            start_page = max(1, end_page - max_page_numbers + 1)
+
+        # Apply filters
+        if request.method == 'POST':
+            year = request.form.get('year')
+            state = request.form.get('state')
+            attack_type = request.form.get('attackType')
+
+            if year:
+                df = df[df['iyear'] == int(year)]
+            if state:
+                df = df[df['provstate'] == state]
+            if attack_type:
+                df = df[df['attacktype1_txt'] == attack_type]
+
+        # Paginate results
+        records = df.iloc[offset:offset + per_page].to_dict(orient='records')
+
+        return render_template(
+            'historicalrecords.html',
+            records=records,
+            pages=range(start_page, end_page + 1),
+            current_page=page,
+            total_pages=total_pages
+        )
+    except Exception as e:
+        flash(f"An error occurred: {str(e)}", 'danger')
+        return redirect('/dashboard')
+
+
+@app.route('/historicalrecords/export')
+def export_csv():
+    try:
+        dataset_path = "nigeriaglobalterrorismdb.csv"
+        df = pd.read_csv(dataset_path)
+        response = make_response(df.to_csv(index=False))
+        response.headers["Content-Disposition"] = "attachment; filename=historical_records.csv"
+        response.headers["Content-Type"] = "text/csv"
+        return response
+    except Exception as e:
+        flash(f"An error occurred: {str(e)}", 'danger')
+        return redirect('/historicalrecords')
 
 
 @app.route('/logout')
