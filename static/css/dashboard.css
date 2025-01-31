@@ -4,11 +4,13 @@ body {
     display: flex;
     height: 100vh;
     margin: 0;
+    background-color: #121212;
+    color: #ffffff;
 }
 .sidebar {
     width: 250px;
     height: 100vh;
-    background-color: #343a40;
+    background-color: #1f1f1f;
     color: white;
     position: fixed;
     top: 0;
@@ -21,7 +23,7 @@ body {
     text-align: center;
     font-size: 24px;
     margin-bottom: 30px;
-    color: #007bff;
+    color: #00ff88;
 }
 .sidebar a {
     color: white;
@@ -38,9 +40,11 @@ body {
     margin-left: 250px;
     padding: 20px;
     width: calc(100% - 250px);
+    background-color: #1f1f1f;
+    border-radius: 10px;
 }
 .greeting {
-    background-color: #007bff;
+    background-color: #00ff88;
     color: white;
     padding: 15px;
     border-radius: 10px;
@@ -48,7 +52,7 @@ body {
     margin-bottom: 20px;
 }
 .main-content {
-    background-color: #f8f9fa;
+    background-color: black;
     padding: 20px;
     border-radius: 10px;
 }
@@ -70,4 +74,11 @@ padding: 8px;
 
 th {
 background-color: #f2f2f2;
+}
+.nav-link {
+    color: #ffffff !important;
+}
+.nav-link:hover {
+    background-color: #333333;
+    color: #00ff88 !important;
 }

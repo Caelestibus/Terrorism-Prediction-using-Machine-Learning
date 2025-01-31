@@ -19,6 +19,47 @@
         .form-row .form-group {
             margin-bottom: 1rem;
         }
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            
+        }
+        .card-header {
+            background-color: #00cc66;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 10px 10px 0 0;
+        }
+        .card-body {
+            padding: 20px;
+        }
+        .result-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .result-table th, .result-table td {
+            padding: 12px;
+            border: 1px solid #ddd;
+        }
+        .result-table th {
+            background-color: #00cc66;
+            color: black;
+            
+        }
+        .result-table tr:nth-child(even) {
+            background-color: #000000;
+        }
+        .result-table tr:nth-child(odd) {
+            background-color: #000000;
+        }
+        .result-table tr:hover {
+            background-color: #000000;
+        }
+
     </style>
 </head>
 <body>
@@ -26,7 +67,7 @@
 <div class="col-md-2 col-sm-4 bg-dark text-white vh-100 p-1 sidebar">
     <!-- Hotel Logo -->
     <div class="text-center">
-        <img src="/static/assets/images/planetgelimgbulogo.png" alt="Hotel Logo" class="img-fluid mb-2" style="width: 150px;">
+        <img src="/static/assets/images/terrorismlogo.png" alt="Logo" class="img-fluid mb-2" style="width: 150px;">
     
     </div>
 
@@ -79,93 +120,132 @@
             
             <p>Use this section to predict the likelihood of a terrorist attack based on input parameters.</p>
             
-            <form id="predictionForm" action="/machinelearning" method="POST" class="mt-4">
-                <div class="form-row">
-                    <div class="form-group col-md-3">
-                        <label for="year">Year</label>
-                        <input type="number" class="form-control" id="year" name="year" placeholder="Enter year" required>
+             <!-- Input Form Card -->
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-cogs mr-2"></i>Input Parameters
+            </div>
+            <div class="card-body">
+                <form id="predictionForm" action="/machinelearning" method="POST">
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                            <label for="year">Year</label>
+                            <input type="number" class="form-control" id="year" name="year" placeholder="Enter year" required>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="month">Month</label>
+                            <input type="number" class="form-control" id="month" name="month" placeholder="Enter month" required>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="state">State</label>
+                            <select id="state" name="state" class="form-control" required>
+                                <option value="" disabled selected>Select State</option>
+                                <option value="Abia">Abia</option>
+                                <option value="Abuja">Abuja</option>
+                                <option value="Adamawa">Adamawa</option>
+                                <option value="Akwa Ibom">Akwa Ibom</option>
+                                <option value="Anambra">Anambra</option>
+                                <option value="Bauchi">Bauchi</option>
+                                <option value="Bayelsa">Bayelsa</option>
+                                <option value="Benue">Benue</option>
+                                <option value="Borno">Borno</option>
+                                <option value="Cross River">Cross River</option>
+                                <option value="Delta">Delta</option>
+                                <option value="Ebonyi">Ebonyi</option>
+                                <option value="Edo">Edo</option>
+                                <option value="Ekiti">Ekiti</option>
+                                <option value="Enugu">Enugu</option>
+                                <option value="Gombe">Gombe</option>
+                                <option value="Imo">Imo</option>
+                                <option value="Jigawa">Jigawa</option>
+                                <option value="Kaduna">Kaduna</option>
+                                <option value="Kano">Kano</option>
+                                <option value="Katsina">Katsina</option>
+                                <option value="Kebbi">Kebbi</option>
+                                <option value="Kogi">Kogi</option>
+                                <option value="Kwara">Kwara</option>
+                                <option value="Lagos">Lagos</option>
+                                <option value="Nasarawa">Nasarawa</option>
+                                <option value="Niger">Niger</option>
+                                <option value="Ogun">Ogun</option>
+                                <option value="Ondo">Ondo</option>
+                                <option value="Osun">Osun</option>
+                                <option value="Oyo">Oyo</option>
+                                <option value="Plateau">Plateau</option>
+                                <option value="Rivers">Rivers</option>
+                                <option value="Sokoto">Sokoto</option>
+                                <option value="Taraba">Taraba</option>
+                                <option value="Yobe">Yobe</option>
+                                <option value="Zamfara">Zamfara</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="attackType">Attack Type</label>
+                            <select id="attackType" name="attackType" class="form-control" required>
+                                <option value="" disabled selected>Select Attack Type</option>
+                                <option value="Armed Assault">Armed Assault</option>
+                                <option value="Assassination">Assassination</option>
+                                <option value="Bombing/Explosion">Bombing/Explosion</option>
+                                <option value="Facility/Infrastructure Attack">Facility/Infrastructure Attack</option>
+                                <option value="Hijacking">Hijacking</option>
+                                <option value="Hostage Taking (Barricade Incident)">Hostage Taking (Barricade Incident)</option>
+                                <option value="Hostage Taking (Kidnapping)">Hostage Taking (Kidnapping)</option>
+                                <option value="Unarmed Assault">Unarmed Assault</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="form-group col-md-3">
-                        <label for="month">Month</label>
-                        <input type="number" class="form-control" id="month" name="month" placeholder="Enter month" required>
-                    </div>
-                    <div class="form-group col-md-3">
-                        <label for="state">State</label>
-                        <select id="state" name="state" class="form-control" required>
-                            <option value="" disabled selected>Select State</option>
-                            <option value="Abia">Abia</option>
-                            <option value="Abuja">Abuja</option>
-                            <option value="Adamawa">Adamawa</option>
-                            <option value="Akwa Ibom">Akwa Ibom</option>
-                            <option value="Anambra">Anambra</option>
-                            <option value="Bauchi">Bauchi</option>
-                            <option value="Bayelsa">Bayelsa</option>
-                            <option value="Benue">Benue</option>
-                            <option value="Borno">Borno</option>
-                            <option value="Cross River">Cross River</option>
-                            <option value="Delta">Delta</option>
-                            <option value="Ebonyi">Ebonyi</option>
-                            <option value="Edo">Edo</option>
-                            <option value="Ekiti">Ekiti</option>
-                            <option value="Enugu">Enugu</option>
-                            <option value="Gombe">Gombe</option>
-                            <option value="Imo">Imo</option>
-                            <option value="Jigawa">Jigawa</option>
-                            <option value="Kaduna">Kaduna</option>
-                            <option value="Kano">Kano</option>
-                            <option value="Katsina">Katsina</option>
-                            <option value="Kebbi">Kebbi</option>
-                            <option value="Kogi">Kogi</option>
-                            <option value="Kwara">Kwara</option>
-                            <option value="Lagos">Lagos</option>
-                            <option value="Nasarawa">Nasarawa</option>
-                            <option value="Niger">Niger</option>
-                            <option value="Ogun">Ogun</option>
-                            <option value="Ondo">Ondo</option>
-                            <option value="Osun">Osun</option>
-                            <option value="Oyo">Oyo</option>
-                            <option value="Plateau">Plateau</option>
-                            <option value="Rivers">Rivers</option>
-                            <option value="Sokoto">Sokoto</option>
-                            <option value="Taraba">Taraba</option>
-                            <option value="Yobe">Yobe</option>
-                            <option value="Zamfara">Zamfara</option>
-                        </select>
-                    </div>
-                    <div class="form-group col-md-3">
-                        <label for="attackType">Attack Type</label>
-                        <select id="attackType" name="attackType" class="form-control" required>
-                            <option value="" disabled selected>Select Attack Type</option>
-                            <option value="Armed Assault">Armed Assault</option>
-                            <option value="Assassination">Assassination</option>
-                            <option value="Bombing/Explosion">Bombing/Explosion</option>
-                            <option value="Facility/Infrastructure Attack">Facility/Infrastructure Attack</option>
-                            <option value="Hijacking">Hijacking</option>
-                            <option value="Hostage Taking (Barricade Incident)">Hostage Taking (Barricade Incident)</option>
-                            <option value="Hostage Taking (Kidnapping)">Hostage Taking (Kidnapping)</option>
-                            <option value="Unarmed Assault">Unarmed Assault</option>
-                            
-                        </select>
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-primary mt-3">Predict</button>
-            </form>
-            
-            <div id="result" class="mt-4">
-                <!-- Prediction result will be displayed here -->
-                {% if prediction %}
-                <div class="alert alert-info">
-                    <strong>Year:</strong>{{year}}<br>
-                    <strong>Month:</strong>{{month}}<br>
-                    <strong>State:</strong>{{state}}<br>
-                    <strong>Terrorist Attack:</strong>{{attack_type}}<br>
-                    <strong>Prediction:</strong> {{ prediction.message }} <br>
-                    <strong>Probability:</strong> {{ prediction.probability }}%
-                </div>
-                {% endif %}
+                    <button type="submit" class="btn btn-success mt-3">
+                        <i class="fas fa-brain mr-2"></i>Predict
+                    </button>
+                </form>
             </div>
         </div>
-    </div>
+
+       <!-- Result Card -->
+       {% if prediction %}
+       <div class="card">
+           <div class="card-header">
+               <i class="fas fa-chart-bar mr-2"></i>Prediction Result
+           </div>
+           <div class="card-body">
+               <table class="result-table">
+                   <thead>
+                       <tr>
+                           <th>Field</th>
+                           <th>Value</th>
+                       </tr>
+                   </thead>
+                   <tbody>
+                       <tr>
+                           <td><strong>Year</strong></td>
+                           <td>{{ year }}</td>
+                       </tr>
+                       <tr>
+                           <td><strong>Month</strong></td>
+                           <td>{{ month }}</td>
+                       </tr>
+                       <tr>
+                           <td><strong>State</strong></td>
+                           <td>{{ state }}</td>
+                       </tr>
+                       <tr>
+                           <td><strong>Terrorist Attack</strong></td>
+                           <td>{{ attack_type }}</td>
+                       </tr>
+                       <tr>
+                           <td><strong>Prediction</strong></td>
+                           <td>{{ prediction.message }}</td>
+                       </tr>
+                       <tr>
+                           <td><strong>Probability</strong></td>
+                           <td>{{ prediction.probability }}%</td>
+                       </tr>
+                   </tbody>
+               </table>
+           </div>
+       </div>
+       {% endif %}
+   </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>

@@ -6,7 +6,7 @@
     <title>Historical Records</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/static/css/dashboard.css" />
+    
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
@@ -16,10 +16,95 @@
         }
         .table th, .table td {
             text-align: center;
+            color: white;
         }
         .form-row .form-group {
             margin-bottom: 1rem;
         }
+        
+body {
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    height: 100vh;
+    margin: 0;
+    background-color: #121212;
+    color: #ffffff;
+}
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    background-color: #1f1f1f;
+    color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    padding-top: 20px;
+}
+.sidebar h2 {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 30px;
+    color: #00ff88;
+}
+.sidebar a {
+    color: white;
+    padding: 15px;
+    text-decoration: none;
+    font-size: 18px;
+    display: block;
+    transition: background 0.3s;
+}
+.sidebar a:hover {
+    background-color: #495057;
+}
+.content {
+    margin-left: 250px;
+    padding: 20px;
+    width: calc(100% - 250px);
+    background-color: #1f1f1f;
+    border-radius: 10px;
+}
+.greeting {
+    background-color: #00ff88;
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+.main-content {
+    background-color: black;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.container {
+width: 80%;
+margin: 0 auto;
+}
+
+table {
+width: 100%;
+border-collapse: collapse;
+}
+
+th, td {
+border: 1px solid #ddd;
+padding: 8px;
+}
+
+th {
+background-color: #f2f2f2;
+}
+.nav-link {
+    color: #ffffff !important;
+}
+.nav-link:hover {
+    background-color: #333333;
+    color: #00ff88 !important;
+}
     </style>
 </head>
 <body>
@@ -27,7 +112,7 @@
 <div class="col-md-2 col-sm-4 bg-dark text-white vh-100 p-1 sidebar">
     <!-- Hotel Logo -->
     <div class="text-center">
-        <img src="/static/assets/images/planetgelimgbulogo.png" alt="Hotel Logo" class="img-fluid mb-2" style="width: 150px;">
+        <img src="/static/assets/images/terrorismlogo.png" alt="Logo" class="img-fluid mb-2" style="width: 150px;">
     
     </div>
 
@@ -135,7 +220,7 @@
             <!-- Previous Set of Pages -->
             {% if current_page > 1 %}
             <li class="page-item">
-                <a class="page-link" href="/historicalrecords?page={{ current_page - 1 }}" aria-label="Previous">
+                <a class="page-link" href="/historicalrecords?page={{ current_page - 1 }}" aria-label="Previous" style="background-color: #ae2222;">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
