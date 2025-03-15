@@ -20,11 +20,10 @@
 </head>
 <body>
     <!-- Sidebar Navigation -->
-<div class="col-md-2 col-sm-4 bg-dark text-white vh-100 p-1 sidebar">
-    <!-- Hotel Logo -->
+  <div class="col-md-2 col-sm-4 bg-dark text-white vh-100 p-1 sidebar">
+    <!-- App Logo -->
     <div class="text-center">
-        <img src="/static/assets/images/logo.jpeg" alt="Logo" class="img-fluid mb-2" style="width: 150px;">
-    
+        <img src="/static/assets/images/terrorismlogo.png" alt="Logo" class="img-fluid mb-2" style="width: 150px;">
     </div>
 
     <!-- Navigation Links -->
@@ -32,29 +31,26 @@
         <a class="nav-link text-white py-2" href="/dashboard">
             <i class="fas fa-tachometer-alt mr-2"></i>Dashboard
         </a>
-        <a class="nav-link text-white py-2" href="/reservations">
-            <i class="fas fa-calendar-check mr-2"></i>Reservations
+        <a class="nav-link text-white py-2" href="/machinelearning">
+            <i class="fas fa-brain mr-2"></i>Machine Learning
         </a>
-        <a class="nav-link text-white py-2" href="/bookings">
-            <i class="fas fa-sign-in-alt mr-2"></i>Check In
+        <a class="nav-link text-white py-2" href="/dataanalysis">
+            <i class="fas fa-chart-pie mr-2"></i>Data Analysis
         </a>
-        <a class="nav-link text-white py-2" href="/rooms">
-            <i class="fas fa-door-closed mr-2"></i>Manage Rooms
+        <a class="nav-link text-white py-2" href="/historicalrecords">
+            <i class="fas fa-history mr-2"></i>Historical Records
         </a>
-        <a class="nav-link text-white py-2" href="/housekeeping">
-            <i class="fas fa-broom mr-2"></i>Housekeeping
+        {% if current_user.role == 'admin' %}
+        <a class="nav-link text-white py-2" href="/register">
+            <i class="fas fa-user-plus mr-2"></i>Register Staff
         </a>
-        <a class="nav-link text-white py-2" href="/guests">
-            <i class="fas fa-users mr-2"></i>Guests
-        </a>
-        <a class="nav-link text-white py-2" href="/bookinghistory">
-            <i class="fas fa-history mr-2"></i>Check In History
-        </a>
+        {% endif %}
         <a class="nav-link text-white py-2" href="/logout">
             <i class="fas fa-sign-out-alt mr-2"></i>Logout
         </a>
     </nav>
 </div>
+
     <!-- Main Content Area -->
     <div class="content">
     <div class="container">
