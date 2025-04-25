@@ -173,8 +173,43 @@ background-color: #f2f2f2;
                 <select id="state" name="state" class="form-control">
                     <option value="">Select State</option>
                     <option value="Abia" {% if request.form.state == 'Abia' %}selected{% endif %}>Abia</option>
-                    <option value="Lagos" {% if request.form.state == 'Lagos' %}selected{% endif %}>Lagos</option>
+                    <option value="Abuja" {% if request.form.state == 'Abuja' %}selected{% endif %}>Abuja</option>
+                    <option value="Adamawa" {% if request.form.state == 'Adamawa' %}selected{% endif %}>Adamawa</option>
+                    <option value="Akwa Ibom" {% if request.form.state == 'Akwa Ibom' %}selected{% endif %}>Akwa Ibom</option>
+                    <option value="Anambra" {% if request.form.state == 'Anambra' %}selected{% endif %}>Anambra</option>
+                    <option value="Bauchi" {% if request.form.state == 'Bauchi' %}selected{% endif %}>Bauchi</option>
+                    <option value="Bayelsa" {% if request.form.state == 'Bayelsa' %}selected{% endif %}>Bayelsa</option>
+                    <option value="Benue" {% if request.form.state == 'Benue' %}selected{% endif %}>Benue</option>
                     <option value="Borno" {% if request.form.state == 'Borno' %}selected{% endif %}>Borno</option>
+                    <option value="Cross River" {% if request.form.state == 'Cross River' %}selected{% endif %}>Cross River</option>
+                    <option value="Delta" {% if request.form.state == 'Delta' %}selected{% endif %}>Delta</option>
+                    <option value="Ebonyi" {% if request.form.state == 'Ebonyi' %}selected{% endif %}>Ebonyi</option>
+                    <option value="Edo" {% if request.form.state == 'Edo' %}selected{% endif %}>Edo</option>
+                    <option value="Ekiti" {% if request.form.state == 'Ekiti' %}selected{% endif %}>Ekiti</option>
+                    <option value="Enugu" {% if request.form.state == 'Enugu' %}selected{% endif %}>Enugu</option>
+                    <option value="Gombe" {% if request.form.state == 'Gombe' %}selected{% endif %}>Gombe</option>
+                    <option value="Imo" {% if request.form.state == 'Imo' %}selected{% endif %}>Imo</option>
+                    <option value="Jigawa" {% if request.form.state == 'Jigawa' %}selected{% endif %}>Jigawa</option>
+                    <option value="Kaduna" {% if request.form.state == 'Kaduna' %}selected{% endif %}>Kaduna</option>
+                    <option value="Kano" {% if request.form.state == 'Kano' %}selected{% endif %}>Kano</option>
+                    <option value="Katsina" {% if request.form.state == 'Katsina' %}selected{% endif %}>Katsina</option>
+                    <option value="Kebbi" {% if request.form.state == 'Kebbi' %}selected{% endif %}>Kebbi</option>
+                    <option value="Kogi" {% if request.form.state == 'Kogi' %}selected{% endif %}>Kogi</option>
+                    <option value="Kwara" {% if request.form.state == 'Kwara' %}selected{% endif %}>Kwara</option>
+                    <option value="Lagos" {% if request.form.state == 'Lagos' %}selected{% endif %}>Lagos</option>
+                    <option value="Nasarawa" {% if request.form.state == 'Nasarawa' %}selected{% endif %}>Nasarawa</option>
+                    <option value="Niger" {% if request.form.state == 'Niger' %}selected{% endif %}>Niger</option>
+                    <option value="Ogun" {% if request.form.state == 'Ogun' %}selected{% endif %}>Ogun</option>
+                    <option value="Ondo" {% if request.form.state == 'Ondo' %}selected{% endif %}>Ondo</option>
+                    <option value="Osun" {% if request.form.state == 'Osun' %}selected{% endif %}>Osun</option>
+                    <option value="Oyo" {% if request.form.state == 'Oyo' %}selected{% endif %}>Oyo</option>
+                    <option value="Plateau" {% if request.form.state == 'Plateau' %}selected{% endif %}>Plateau</option>
+                    <option value="Rivers" {% if request.form.state == 'Rivers' %}selected{% endif %}>Rivers</option>
+                    <option value="Sokoto" {% if request.form.state == 'Sokoto' %}selected{% endif %}>Sokoto</option>
+                    <option value="Taraba" {% if request.form.state == 'Taraba' %}selected{% endif %}>Taraba</option>
+                    <option value="Yobe" {% if request.form.state == 'Yobe' %}selected{% endif %}>Yobe</option>
+                    <option value="Zamfara" {% if request.form.state == 'Zamfara' %}selected{% endif %}>Zamfara</option>
+
                 </select>
             </div>
             <div class="form-group col-md-3">
@@ -183,6 +218,11 @@ background-color: #f2f2f2;
                     <option value="">Select Attack Type</option>
                     <option value="Armed Assault" {% if request.form.attackType == 'Armed Assault' %}selected{% endif %}>Armed Assault</option>
                     <option value="Bombing/Explosion" {% if request.form.attackType == 'Bombing/Explosion' %}selected{% endif %}>Bombing/Explosion</option>
+                    <option value="Facility/Infrastructure Attack" {% if request.form.attackType == 'Facility/Infrastructure Attack' %}selected{% endif %}>Facility/Infrastructure Attack</option>
+                    <option value="Hijacking" {% if request.form.attackType == 'Hijacking' %}selected{% endif %}>Hijacking</option>
+                    <option value="Hostage Taking (Barricade Incident)" {% if request.form.attackType == 'Hostage Taking (Barricade Incident)' %}selected{% endif %}>Hostage Taking (Barricade Incident)</option>
+                    <option value="Hostage Taking (Kidnapping)" {% if request.form.attackType == 'Hostage Taking (Kidnapping)' %}selected{% endif %}>Hostage Taking (Kidnapping)</option>
+                    <option value="Unarmed Assault" {% if request.form.attackType == 'Unarmed Assault' %}selected{% endif %}>Unarmed Assault</option>
                 </select>
             </div>
         </div>
